@@ -9,15 +9,24 @@ namespace neat {
       public:  
         Connection(Node & nodeA,
                    Node & nodeB,
-                   float const weightInitLower,
-                   float const weightInitUpper, 
+                   float const weightBound, 
                    float const mutationProbability);
 
-        /// Mutates the weight value
-        void perturbWeight();
+        // Since we have references as member vars,
+        // we need explicit copy and assignment operators.
+        // Applying rule of 4, also have the move equivalents.
+        Connection(Connection const & other);
+        Connection(Connection && other);
+        Connection & operator=(Connection const & other);
+        Connection & operator=(Connection && other);
 
-        Node & getNodeRefA();
-        Node & getNodeRefB();
+        /// Mutates the weight value
+        void perturbWeight(float const weightStep);
+
+        Node const & getNodeRefA() const;
+        Node const & getNodeRefB() const;
+
+        float weight() const;
 
       private:
         /// The connection end-points

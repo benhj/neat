@@ -3,9 +3,9 @@
 namespace neat {
 
     enum class NodeType {
-        Transfer,
-        Sigmoid,
-        Gaussian
+        Input,
+        Hidden,
+        Output
     };
 
 }

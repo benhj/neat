@@ -1,3 +1,5 @@
+// Copyright (c) 2017 Ben Jones
+
 #include "Connection.hpp"
 #include "Node.hpp"
 #include <cstdlib>

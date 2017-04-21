@@ -1,3 +1,5 @@
+// Copyright (c) 2017 Ben Jones
+
 #pragma once
 
 #include <vector>
@@ -33,6 +35,11 @@ namespace neat {
         /// Add a node in place of connection. That is
         /// A--->B becomes A--->C--->B
         void addNodeInPlaceOf(Connection & con);
+
+        /// All connections going into hidden and output nodes
+        /// are perturbed byAmount if probability satisfied
+        /// by rate stored in actual connection object.
+        void perturbWeights(double const byAmount);
     };
 
 }

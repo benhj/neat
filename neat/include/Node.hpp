@@ -1,3 +1,5 @@
+// Copyright (c) 2017 Ben Jones
+
 #pragma once
 
 #include "NodeType.hpp"
@@ -26,6 +28,11 @@ namespace neat {
 
         /// Updates the type of node with probability
         void perturbNodeFunction();
+
+        /// Perturb incoming weights. The amount by which
+        /// weights are perturbed will be determined by the
+        /// connection's weight mutation probability.
+        void perturbIncomingWeights(double const byAmount);
 
         /// The input to this node not coming from another node
         void setExternalInput(double const externalInput);

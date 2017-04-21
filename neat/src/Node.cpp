@@ -1,3 +1,5 @@
+// Copyright (c) 2017 Ben Jones
+
 #include "Node.hpp"
 #include "Connection.hpp"
 #include <cstdlib> // rand()
@@ -120,5 +122,12 @@ namespace neat {
         }
         accumulator += m_externalInput;
         return applyNodeFunction(m_nodeFunction, accumulator);
+    }
+
+    void Node::perturbIncomingWeights(double const byAmount)
+    {
+        for (auto & con : m_incomingConnections) {
+            con.perturbWeight(byAmount);
+        }
     }
 }

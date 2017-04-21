@@ -1,3 +1,5 @@
+// Copyright (c) 2017 Ben Jones
+
 #include "Network.hpp"
 #include "NodeType.hpp"
 #include "Node.hpp"
@@ -24,9 +26,11 @@ namespace neat {
 
     void Network::initNet()
     {
-        // Input and output node creation
+        // Input and output node creation. 
         for (auto i = 0; i < m_inputCount; ++i) {
             m_nodes.emplace_back(i, NodeType::Input, m_nodeFunctionChangeProb);
+            // Also set bias to each input to 1
+            m_nodes[i].setExternalInput(1.0);
         }
         for (auto i = m_inputCount; i < m_inputCount + m_outputCount; ++i) {
             m_nodes.emplace_back(i, NodeType::Output, m_nodeFunctionChangeProb);
@@ -44,7 +48,6 @@ namespace neat {
 
     void Network::addNodeInPlaceOf(Connection & con)
     {
-        
         // Create a new node
         auto id = m_nodes.size() - 1;
         m_nodes.emplace_back(id, NodeType::Hidden, m_nodeFunctionChangeProb);
@@ -66,6 +69,12 @@ namespace neat {
         nodePost.addIncomingConnectionFrom(m_nodes[id], 
                                            m_weightInitBound, 
                                            m_weightChangeProb);
+    }
 
+    void Network::perturbWeights(double const byAmount)
+    {
+        for(auto i = m_inputCount; i < m_nodes.size(); ++i) {
+            m_nodes[i].perturbIncomingWeights(byAmount);
+        }
     }
 }

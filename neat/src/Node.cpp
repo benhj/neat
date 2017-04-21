@@ -3,6 +3,7 @@
 #include <cstdlib> // rand()
 #include <algorithm>
 #include <cmath>
+#include <cassert>
 
 namespace {
 
@@ -51,6 +52,14 @@ namespace neat {
                                          float const weightBound,
                                          float const mutProb)
     {
+        // Sanity A: Input nodes can't having incoming connections
+        assert(m_nodeType != NodeType::Input);
+
+        // Sanity B: Output nodes can't connect to hidden nodes
+        if (m_nodeType == NodeType::Hidden) {
+            assert(otherNode.getNodeType() != NodeType::Output);
+        }
+
         m_incomingConnections.emplace_back(*this, 
                                            otherNode, 
                                            weightBound, 

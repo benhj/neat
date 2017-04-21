@@ -78,6 +78,6 @@ namespace neat {
         }
     }
 
-    Node const & Connection::getNodeRefA() const { return m_nodeA; }
-    Node const & Connection::getNodeRefB() const { return m_nodeB; }
+    Node & Connection::getNodeRefA() { return m_nodeA; }
+    Node & Connection::getNodeRefB() { return m_nodeB; }
 }

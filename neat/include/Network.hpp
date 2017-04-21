@@ -5,6 +5,7 @@
 namespace neat {
 
     class Node;
+    class Connection;
 
     class Network
     {
@@ -26,8 +27,12 @@ namespace neat {
         double m_weightInitBound;
         std::vector<Node> m_nodes;
 
-        // fully connect all inputs to all outputs
+        /// Fully connect all inputs to all outputs
         void initNet();
+
+        /// Add a node in place of connection. That is
+        /// A--->B becomes A--->C--->B
+        void addNodeInPlaceOf(Connection & con);
     };
 
 }

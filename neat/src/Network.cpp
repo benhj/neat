@@ -41,4 +41,31 @@ namespace neat {
             }
         }
     }
+
+    void Network::addNodeInPlaceOf(Connection & con)
+    {
+        
+        // Create a new node
+        auto id = m_nodes.size() - 1;
+        m_nodes.emplace_back(id, NodeType::Hidden, m_nodeFunctionChangeProb);
+
+        // Find out original connectivity
+        auto & nodePre = con.getNodeRefA();
+        auto & nodePost = con.getNodeRefB();
+        
+        // Remove old connection from nodePre to nodePost
+        auto nodePreIndex = nodePre.getIndex();
+        nodePost.removeIncomingConnectionFrom(nodePreIndex);
+
+        // Add new connection from nodePre to new node
+        m_nodes[id].addIncomingConnectionFrom(nodePre, 
+                                              m_weightInitBound, 
+                                              m_weightChangeProb);
+
+        // ..and from new node to node post
+        nodePost.addIncomingConnectionFrom(m_nodes[id], 
+                                           m_weightInitBound, 
+                                           m_weightChangeProb);
+
+    }
 }

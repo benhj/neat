@@ -32,7 +32,7 @@ namespace neat {
 
         /// Will back-track to inputs to figure out what
         /// final output current should be
-        double getOutput() const;
+        double getOutput();
 
         /// Retrieves the classic i,j type index of this node
         int getIndex() const;
@@ -40,7 +40,7 @@ namespace neat {
         NodeType getNodeType() const;
 
         /// Indicates if this has connection from node i
-        bool hasConnectionFrom(int const i) const;
+        bool hasConnectionFrom(int const i);
 
       private:
 

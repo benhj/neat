@@ -70,7 +70,7 @@ namespace neat {
     {
         auto it = std::find_if(std::begin(m_incomingConnections),
                                std::end(m_incomingConnections),
-                               [i](Connection const & con) {
+                               [i](Connection & con) {
                                    return con.getNodeRefA().getIndex() == i;
                                });
 
@@ -89,11 +89,11 @@ namespace neat {
         return m_nodeType;
     }
 
-    bool Node::hasConnectionFrom(int const i) const
+    bool Node::hasConnectionFrom(int const i)
     {
         return std::find_if(std::begin(m_incomingConnections),
                             std::end(m_incomingConnections),
-                            [i](Connection const & con) {
+                            [i](Connection & con) {
                                return con.getNodeRefA().getIndex() == i;
                             }) != std::end(m_incomingConnections);
     }
@@ -110,12 +110,12 @@ namespace neat {
         m_externalInput = externalInput;
     }
 
-    double Node::getOutput() const
+    double Node::getOutput() 
     {
         // back-tracks over all nodes to get final output
         double accumulator = 0;
-        for (auto const & con : m_incomingConnections) {
-            auto const & nodeRef = con.getNodeRefA();
+        for (auto & con : m_incomingConnections) {
+            auto & nodeRef = con.getNodeRefA();
             accumulator += nodeRef.getOutput() * con.weight();
         }
         accumulator += m_externalInput;

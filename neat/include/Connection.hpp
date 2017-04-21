@@ -23,8 +23,8 @@ namespace neat {
         /// Mutates the weight value
         void perturbWeight(float const weightStep);
 
-        Node const & getNodeRefA() const;
-        Node const & getNodeRefB() const;
+        Node & getNodeRefA();
+        Node & getNodeRefB();
 
         float weight() const;
 

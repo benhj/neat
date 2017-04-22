@@ -121,7 +121,7 @@ namespace neat {
         return m_nodeType;
     }
 
-    bool Node::hasConnectionFrom(int const i)
+    bool Node::hasConnectionFrom(int const i) const
     {
         return std::find_if(std::begin(m_incomingConnections),
                             std::end(m_incomingConnections),

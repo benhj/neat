@@ -6,7 +6,7 @@
 #include "Connection.hpp"
 
 namespace {
-    void restoreConnectivity(std::vector<neat::Node> & oldNodes,
+    void restoreConnectivity(std::vector<neat::Node> const & oldNodes,
                              std::vector<neat::Node> & newNodes,
                              double const weightInitBound,
                              double const weightChangeProb)
@@ -54,7 +54,7 @@ namespace neat {
     {
         // now restore connectivity
         // Fuck it, I hate that const cast. Will need to fix.
-        restoreConnectivity(const_cast<Network &>(other).m_nodes, 
+        restoreConnectivity(other.m_nodes, 
                             m_nodes, 
                             m_weightInitBound, 
                             m_weightChangeProb);
@@ -74,7 +74,7 @@ namespace neat {
         m_weightInitBound = (other.m_weightInitBound);
         m_nodes = other.m_nodes;
         // now restore connectivity
-        restoreConnectivity(const_cast<Network &>(other).m_nodes, 
+        restoreConnectivity(other.m_nodes, 
                             m_nodes, 
                             m_weightInitBound, 
                             m_weightChangeProb);

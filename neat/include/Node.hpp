@@ -53,7 +53,7 @@ namespace neat {
         NodeType getNodeType() const;
 
         /// Indicates if this has connection from node i
-        bool hasConnectionFrom(int const i);
+        bool hasConnectionFrom(int const i) const;
 
       private:
 
@@ -70,7 +70,7 @@ namespace neat {
         NodeFunction m_nodeFunction;
 
         /// Describes all nodes connected to this node
-        std::vector<Connection> m_incomingConnections;
+        mutable std::vector<Connection> m_incomingConnections;
 
         /// Input going into the node not coming
         /// from another node.

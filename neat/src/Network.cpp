@@ -34,6 +34,7 @@ namespace neat {
                      double const weightInitBound)
       : m_inputCount(inputCount)
       , m_outputCount(outputCount)
+      , m_maxSize(maxSize)
       , m_nodeAdditionProb(nodeAdditionProb)
       , m_nodeFunctionChangeProb(nodeFunctionChangeProb)
       , m_weightChangeProb(weightChangeProb)
@@ -46,6 +47,7 @@ namespace neat {
     Network::Network(Network const & other)
       : m_inputCount(other.m_inputCount)
       , m_outputCount(other.m_outputCount)
+      , m_maxSize(other.m_maxSize)
       , m_nodeAdditionProb(other.m_nodeAdditionProb)
       , m_nodeFunctionChangeProb(other.m_nodeFunctionChangeProb)
       , m_weightChangeProb(other.m_weightChangeProb)
@@ -68,6 +70,7 @@ namespace neat {
         }
         m_inputCount = (other.m_inputCount);
         m_outputCount = (other.m_outputCount);
+        m_maxSize = (other.m_maxSize);
         m_nodeAdditionProb = (other.m_nodeAdditionProb);
         m_nodeFunctionChangeProb = (other.m_nodeFunctionChangeProb);
         m_weightChangeProb = (other.m_weightChangeProb);
@@ -106,27 +109,30 @@ namespace neat {
 
     void Network::addNodeInPlaceOf(Connection & con)
     {
-        // Create a new node
-        auto id = m_nodes.size() - 1;
-        m_nodes.emplace_back(id, NodeType::Hidden, m_nodeFunctionChangeProb);
+        // Create a new node but only if number of nodes
+        // is less than max permitted size
+        auto id = m_nodes.size();
+        if (id < m_maxSize) {
+            m_nodes.emplace_back(id, NodeType::Hidden, m_nodeFunctionChangeProb);
 
-        // Find out original connectivity
-        auto & nodePre = con.getNodeRefA();
-        auto & nodePost = con.getNodeRefB();
-        
-        // Remove old connection from nodePre to nodePost
-        auto nodePreIndex = nodePre.getIndex();
-        nodePost.removeIncomingConnectionFrom(nodePreIndex);
+            // Find out original connectivity
+            auto & nodePre = con.getNodeRefA();
+            auto & nodePost = con.getNodeRefB();
+            
+            // Remove old connection from nodePre to nodePost
+            auto nodePreIndex = nodePre.getIndex();
+            nodePost.removeIncomingConnectionFrom(nodePreIndex);
 
-        // Add new connection from nodePre to new node
-        m_nodes[id].addIncomingConnectionFrom(nodePre, 
-                                              m_weightInitBound, 
-                                              m_weightChangeProb);
+            // Add new connection from nodePre to new node
+            m_nodes[id].addIncomingConnectionFrom(nodePre, 
+                                                  m_weightInitBound, 
+                                                  m_weightChangeProb);
 
-        // ..and from new node to node post
-        nodePost.addIncomingConnectionFrom(m_nodes[id], 
-                                           m_weightInitBound, 
-                                           m_weightChangeProb);
+            // ..and from new node to node post
+            nodePost.addIncomingConnectionFrom(m_nodes[id], 
+                                               m_weightInitBound, 
+                                               m_weightChangeProb);
+        }
     }
 
     void Network::perturbWeights(double const byAmount)

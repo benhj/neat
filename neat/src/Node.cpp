@@ -9,7 +9,7 @@
 
 namespace {
 
-    float const PI = 3.14159265359f;
+    double const PI = 3.14159265359;
 
     neat::NodeFunction initNodeFunction()
     {
@@ -41,7 +41,7 @@ namespace {
 namespace neat {
     Node::Node(int const index, 
                NodeType const & nodeType,
-               float const mutationProbability)
+               double const mutationProbability)
       : m_index(index)
       , m_nodeType(nodeType)
       , m_mutationProbability(mutationProbability)
@@ -75,8 +75,8 @@ namespace neat {
     }
 
     void Node::addIncomingConnectionFrom(Node & otherNode,
-                                         float const weightBound,
-                                         float const mutProb)
+                                         double const weightBound,
+                                         double const mutProb)
     {
 
         // Nodes can't connect to nodes of same type (or be recurrent)

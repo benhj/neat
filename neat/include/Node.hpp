@@ -15,7 +15,7 @@ namespace neat {
       public:
         Node(int const index, 
              NodeType const & nodeType,
-             float const mutationProbability);
+             double const mutationProbability);
         Node() = delete;
 
         /// Need to ensure that when nodes are copied,
@@ -26,8 +26,8 @@ namespace neat {
 
         /// Adds a connection from another node
         void addIncomingConnectionFrom(Node & otherNode,
-                                       float const weightBound,
-                                       float const mutProb);
+                                       double const weightBound,
+                                       double const mutProb);
 
         /// For removing a connection
         void removeIncomingConnectionFrom(int const i);
@@ -64,7 +64,7 @@ namespace neat {
         NodeType m_nodeType;
 
         /// To be used when the node type is perturbed
-        float m_mutationProbability;
+        double m_mutationProbability;
 
         /// The node function type(guassian, sigmoidal, tan, etc)
         NodeFunction m_nodeFunction;

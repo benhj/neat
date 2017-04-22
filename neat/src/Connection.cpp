@@ -5,7 +5,7 @@
 #include <cstdlib>
 
 namespace {
-    float initWeight(float const weightBound)
+    double initWeight(double const weightBound)
     {
         auto weight = ((double) rand() / (RAND_MAX)) * weightBound;
         if ((rand() / RAND_MAX) < 0.5) {
@@ -18,8 +18,8 @@ namespace {
 namespace neat {
     Connection::Connection(Node & nodeA,
                            Node & nodeB,
-                           float const weightBound, 
-                           float const mutationProbability)
+                           double const weightBound, 
+                           double const mutationProbability)
       : m_nodeA(nodeA)
       , m_nodeB(nodeB)
       , m_mutationProbability(mutationProbability)
@@ -67,13 +67,13 @@ namespace neat {
         return *this;
     }
 
-    float Connection::weight() const
+    double Connection::weight() const
     {
         return m_weight;
     }
 
     /// Mutates the weight value
-    void Connection::perturbWeight(float const weightStep)
+    void Connection::perturbWeight(double const weightStep)
     {
         if (((double) rand() / (RAND_MAX)) < m_mutationProbability) {
             m_weight += initWeight(weightStep);

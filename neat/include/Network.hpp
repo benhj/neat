@@ -26,6 +26,7 @@ namespace neat {
       private:
         int m_inputCount;
         int m_outputCount;
+        int m_maxSize;
         double m_nodeAdditionProb;
         double m_nodeFunctionChangeProb;
         double m_weightChangeProb;

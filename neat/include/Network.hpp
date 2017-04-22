@@ -20,6 +20,9 @@ namespace neat {
                 double const weightChangeProb,
                 double const weightInitBound);
 
+        Network(Network const & other);
+        Network & operator=(Network const & other);
+
       private:
         int m_inputCount;
         int m_outputCount;

@@ -18,6 +18,12 @@ namespace neat {
              float const mutationProbability);
         Node() = delete;
 
+        /// Need to ensure that when nodes are copied,
+        /// the vector of incoming connections which has
+        /// references to other nodes gets omitted
+        Node(Node const & other);
+        Node & operator=(Node const & other);
+
         /// Adds a connection from another node
         void addIncomingConnectionFrom(Node & otherNode,
                                        float const weightBound,

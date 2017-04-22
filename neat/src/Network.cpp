@@ -5,6 +5,25 @@
 #include "Node.hpp"
 #include "Connection.hpp"
 
+namespace {
+    void restoreConnectivity(std::vector<neat::Node> & oldNodes,
+                             std::vector<neat::Node> & newNodes,
+                             double const weightInitBound,
+                             double const weightChangeProb)
+    {
+        for (auto i = 0; i < oldNodes.size(); ++i) {
+            for (auto j = 0; j < oldNodes.size(); ++j) {
+                if (i == j) { continue; }
+                if (oldNodes[j].hasConnectionFrom(i)) {
+                    newNodes[j].addIncomingConnectionFrom(newNodes[i], 
+                                                          weightInitBound,
+                                                          weightChangeProb);
+                }
+            }
+        }
+    }
+}
+
 namespace neat {
     Network::Network(int const inputCount, 
                      int const outputCount,
@@ -23,6 +42,45 @@ namespace neat {
         m_nodes.reserve(maxSize);
         initNet();
     }
+
+    Network::Network(Network const & other)
+      : m_inputCount(other.m_inputCount)
+      , m_outputCount(other.m_outputCount)
+      , m_nodeAdditionProb(other.m_nodeAdditionProb)
+      , m_nodeFunctionChangeProb(other.m_nodeFunctionChangeProb)
+      , m_weightChangeProb(other.m_weightChangeProb)
+      , m_weightInitBound(other.m_weightInitBound)
+      , m_nodes(other.m_nodes)
+    {
+        // now restore connectivity
+        // Fuck it, I hate that const cast. Will need to fix.
+        restoreConnectivity(const_cast<Network &>(other).m_nodes, 
+                            m_nodes, 
+                            m_weightInitBound, 
+                            m_weightChangeProb);
+    }
+
+    Network & Network::operator=(Network const & other)
+
+    {
+        if (&other == this) {
+            return *this;
+        }
+        m_inputCount = (other.m_inputCount);
+        m_outputCount = (other.m_outputCount);
+        m_nodeAdditionProb = (other.m_nodeAdditionProb);
+        m_nodeFunctionChangeProb = (other.m_nodeFunctionChangeProb);
+        m_weightChangeProb = (other.m_weightChangeProb);
+        m_weightInitBound = (other.m_weightInitBound);
+        m_nodes = other.m_nodes;
+        // now restore connectivity
+        restoreConnectivity(const_cast<Network &>(other).m_nodes, 
+                            m_nodes, 
+                            m_weightInitBound, 
+                            m_weightChangeProb);
+        return *this;
+    }
+        
 
     void Network::initNet()
     {

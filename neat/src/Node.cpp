@@ -50,10 +50,40 @@ namespace neat {
     {
     }
 
+    Node::Node(Node const & other)
+      : m_index(other.m_index)
+      , m_nodeType(other.m_nodeType)
+      , m_mutationProbability(other.m_mutationProbability)
+      , m_nodeFunction(other.m_nodeFunction)
+      , m_externalInput(other.m_externalInput)
+      , m_incomingConnections()
+    {
+    }
+
+    Node & Node::operator=(Node const & other)
+    {
+        if (&other == this) {
+            return *this;
+        }
+        m_index = other.m_index;
+        m_nodeType = other.m_nodeType;
+        m_mutationProbability = other.m_mutationProbability;
+        m_nodeFunction = other.m_nodeFunction;
+        m_externalInput = other.m_externalInput;
+        m_incomingConnections.clear();
+        return *this;
+    }
+
     void Node::addIncomingConnectionFrom(Node & otherNode,
                                          float const weightBound,
                                          float const mutProb)
     {
+
+        // Nodes can't connect to nodes of same type (or be recurrent)
+        if (otherNode.getNodeType() == m_nodeType) {
+            return;
+        }
+
         // Sanity A: Input nodes can't having incoming connections
         assert(m_nodeType != NodeType::Input);
 

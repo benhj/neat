@@ -45,7 +45,7 @@ namespace neat {
 
         /// Will back-track to inputs to figure out what
         /// final output current should be
-        double getOutput();
+        double getOutput() const;
 
         /// Retrieves the classic i,j type index of this node
         int getIndex() const;

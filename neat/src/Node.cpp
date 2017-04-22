@@ -142,7 +142,7 @@ namespace neat {
         m_externalInput = externalInput;
     }
 
-    double Node::getOutput() 
+    double Node::getOutput() const
     {
         // back-tracks over all nodes to get final output
         double accumulator = 0;

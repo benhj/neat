@@ -1,7 +1,7 @@
 // Copyright (c) 2017 Ben Jones
 
-#include "Connection.hpp"
-#include "Node.hpp"
+#include "neat/Connection.hpp"
+#include "neat/Node.hpp"
 #include <cstdlib>
 
 namespace {

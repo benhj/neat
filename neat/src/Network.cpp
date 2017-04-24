@@ -1,9 +1,9 @@
 // Copyright (c) 2017 Ben Jones
 
-#include "Network.hpp"
-#include "NodeType.hpp"
-#include "Node.hpp"
-#include "Connection.hpp"
+#include "neat/Network.hpp"
+#include "neat/NodeType.hpp"
+#include "neat/Node.hpp"
+#include "neat/Connection.hpp"
 
 namespace {
     void restoreConnectivity(std::vector<neat::Node> const & oldNodes,

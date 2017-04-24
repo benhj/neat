@@ -1,7 +1,7 @@
 // Copyright (c) 2017 Ben Jones
 
-#include "Node.hpp"
-#include "Connection.hpp"
+#include "neat/Node.hpp"
+#include "neat/Connection.hpp"
 #include <cstdlib> // rand()
 #include <algorithm>
 #include <cmath>

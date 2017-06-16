@@ -29,6 +29,12 @@ namespace neat {
                                        double const weightBound,
                                        double const mutProb);
 
+        /// Adds a connection from another node but with a weight
+        void addIncomingConnectionFrom(Node & otherNode,
+                                       double const weightBound,
+                                       double const mutProb,
+                                       double const weight);
+
         /// For removing a connection
         void removeIncomingConnectionFrom(int const i);
 
@@ -54,6 +60,9 @@ namespace neat {
 
         /// Indicates if this has connection from node i
         bool hasConnectionFrom(int const i) const;
+
+        /// Retrieve the connection weight from node i
+        double getConnectionWeightFrom(int const i) const;
 
       private:
 

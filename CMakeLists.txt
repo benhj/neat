@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.1)
 project (neat)
 
 # put all source code in one place for convenience
-file(GLOB_RECURSE neat neat/src/*.cpp neat/include/*.hpp)
+file(GLOB_RECURSE neat neat/src/*.cpp neat/include/neat/*.hpp)
 
 # ensure headers in the src folder are compiler-found
 include_directories(neat/include)

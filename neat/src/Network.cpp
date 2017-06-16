@@ -15,9 +15,11 @@ namespace {
             for (auto j = 0; j < oldNodes.size(); ++j) {
                 if (i == j) { continue; }
                 if (oldNodes[j].hasConnectionFrom(i)) {
+                    auto const weight = oldNodes[i].getConnectionWeightFrom(i);
                     newNodes[j].addIncomingConnectionFrom(newNodes[i], 
                                                           weightInitBound,
-                                                          weightChangeProb);
+                                                          weightChangeProb,
+                                                          weight);
                 }
             }
         }
@@ -55,7 +57,6 @@ namespace neat {
       , m_nodes(other.m_nodes)
     {
         // now restore connectivity
-        // Fuck it, I hate that const cast. Will need to fix.
         restoreConnectivity(other.m_nodes, 
                             m_nodes, 
                             m_weightInitBound, 
@@ -105,6 +106,17 @@ namespace neat {
                                                      m_weightChangeProb);
             }
         }
+    }
+
+    void Network::setInput(int const i, double const value) 
+    {
+        m_nodes[i].setExternalInput(value);
+    }
+
+    double Network::getOutput(int const i) const
+    {
+        auto outputIndex = i + m_inputCount;
+        return m_nodes[outputIndex].getOutput();
     }
 
     void Network::addNodeInPlaceOf(Connection & con)

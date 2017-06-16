@@ -23,6 +23,10 @@ namespace neat {
         Network(Network const & other);
         Network & operator=(Network const & other);
 
+        void setInput(int const i, double const value);
+        double getOutput(int const i) const;
+
+
       private:
         int m_inputCount;
         int m_outputCount;

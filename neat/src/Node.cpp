@@ -58,6 +58,7 @@ namespace neat {
       , m_externalInput(other.m_externalInput)
       , m_incomingConnections()
     {
+        m_incomingConnections.reserve(50);
     }
 
     Node & Node::operator=(Node const & other)
@@ -92,10 +93,36 @@ namespace neat {
             assert(otherNode.getNodeType() != NodeType::Output);
         }
 
-        m_incomingConnections.emplace_back(*this, 
-                                           otherNode, 
+        m_incomingConnections.emplace_back(otherNode, 
+                                           *this, 
                                            weightBound, 
                                            mutProb);
+    }
+
+    void Node::addIncomingConnectionFrom(Node & otherNode,
+                                         double const weightBound,
+                                         double const mutProb,
+                                         double const weight)
+    {
+        // Nodes can't connect to nodes of same type (or be recurrent)
+        if (otherNode.getNodeType() == m_nodeType) {
+            return;
+        }
+
+        // Sanity A: Input nodes can't having incoming connections
+        assert(m_nodeType != NodeType::Input);
+
+        // Sanity B: Output nodes can't connect to hidden nodes
+        if (m_nodeType == NodeType::Hidden) {
+            assert(otherNode.getNodeType() != NodeType::Output);
+        }
+
+        m_incomingConnections.emplace_back(otherNode, 
+                                           *this, 
+                                           weightBound, 
+                                           mutProb,
+                                           weight);
+
     }
 
     void Node::removeIncomingConnectionFrom(int const i)
@@ -128,6 +155,17 @@ namespace neat {
                             [i](Connection & con) {
                                return con.getNodeRefA().getIndex() == i;
                             }) != std::end(m_incomingConnections);
+    }
+
+    double Node::getConnectionWeightFrom(int const i) const
+    {
+        auto theConnection = std::find_if(std::begin(m_incomingConnections),
+                             std::end(m_incomingConnections),
+                             [i](Connection & con) {
+                                return con.getNodeRefA().getIndex() == i;
+                             });
+
+        return theConnection->weight();
     }
 
     void Node::perturbNodeFunction()
